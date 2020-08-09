@@ -9,7 +9,6 @@
 .wrapper {
   box-sizing: border-box;
   margin: 0 auto;
-  max-width: 960px;
   padding: 1em;
   display: flex;
 
@@ -110,5 +109,9 @@
 }
 
 .showNav {
+  display: block;
+}
+
+.title {
   display: block;
 }

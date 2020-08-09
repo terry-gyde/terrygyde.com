@@ -40,6 +40,23 @@ export const query = graphql`
       description
       keywords
     }
+    authors: allSanityAuthor {
+      edges {
+        node {
+          id
+          name
+          image {
+            alt
+            asset {
+              fluid {
+                src
+                srcSet
+              }
+            }
+          }
+        }
+      }
+    }
     posts: allSanityPost(
       limit: 6
       sort: { fields: [publishedAt], order: DESC }
@@ -76,11 +93,16 @@ const IndexPage = props => {
   }
 
   const site = (data || {}).site
+  /*
   const postNodes = (data || {}).posts
     ? mapEdgesToNodes(data.posts)
       .filter(filterOutDocsWithoutSlugs)
       .filter(filterOutDocsPublishedInTheFuture)
     : []
+  */
+
+  console.log(data.authors.edges[0].node)
+  const author = data.authors.edges[0].node
 
   if (!site) {
     throw new Error(
@@ -96,14 +118,25 @@ const IndexPage = props => {
         keywords={site.keywords}
       />
       <Container>
-        <h1 hidden>Welcome to {site.title}</h1>
-        {postNodes && (
+        {
+          author && author.image && author.image.asset && (
+            <img
+              src={author.image.asset.fluid.src}
+            />
+          )
+        }
+
+        {
+          /*
+          postNodes && (
           <BlogPostPreviewList
             title='Latest blog posts'
             nodes={postNodes}
             browseMoreHref='/archive/'
           />
-        )}
+          )
+        */
+        }
       </Container>
     </Layout>
   )
